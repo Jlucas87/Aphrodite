@@ -121,7 +121,9 @@ public class CommandProcessor {
 	 */
 	private String variableReplacement(String input, Parcel parcel){
 		//Replace parcelNumber variable
-		input = input.replace("ParcelNumber", parcel.getParcelNumber());
+		if(input.equals("ParcelNumber")){
+			input = input.replace("ParcelNumber", parcel.getParcelNumber());
+		}
 		
 		//Replace screenSize variable
 		//input = input.replace("screenWidth", Toolkit.getDefaultToolkit().getScreenSize().width;
