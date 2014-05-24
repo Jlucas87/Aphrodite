@@ -1,0 +1,2 @@
+Procedure=/Users/Work/Desktop/Lists/CountyProcedureFiles/Adams,CO.xls
+Parcel=/Users/Work/Desktop/Lists/Adams, CO Partial Aphro.xls

@@ -1,0 +1,43 @@
+//System.getProperty("user.dir")+"/src/output/
+
+File gisMap = new File (System.getProperty("user.dir")+"/src/output/" + parcel.parcelNumber + "-" + locator + ".png");
+BufferedImage gisImage;
+
+//Splits the input into x, y, width and height for a rectangle
+int[] imageRect = input.split(",");
+
+
+if (!gisMap.exists())
+{
+	//Captures the entire page to a string
+	String imageCaptureString = selenium.captureEntirePageScreenshotToString("");
+	BASE64Decoder decoder = new BASE64Decoder();
+	
+	byte[] imageCaptureByte = null;
+	
+	//Decodes the page-string to a byte array
+	try { imageCaptureByte = decoder.decodeBuffer(imageCaptureString); } 
+	catch (IOException e) { System.out.println("Could not decode buffer!"); }
+	
+	gisImage = null;
+	
+	//Creates a stream to create the image from the byte array
+	InputStream byteImageStream = new ByteArrayInputStream(imageCaptureByte); 
+		
+	//Transcribes the byte array into a BufferedImage
+	try { gisImage = ImageIO.read(byteImageStream);	}
+	catch (IOException ex) { System.out.println(ex.getMessage()); }
+	
+	//Creates a rectangle from the procedure file's "input" cell
+	Rectangle screenBounds = new Rectangle(imageRect[0], imageRect[1], imageRect[2] - imageRect[0] - 5, imageRect[3] - imageRect[1] - 5);
+	
+	//Cuts down the page-image to a specific size, according to the "input" cell
+	gisImage = gisImage.getSubimage(screenBounds.x, screenBounds.y, screenBounds.width, screenBounds.height);
+	
+	//Lets us know that everyting be alrite, mon
+	System.out.println("Parcel " + parcel + " captured successfully.");	
+
+	//Save the image to the directory
+	try { ImageIO.write(reportAll.GISMap(), "png", gisMap); }
+	catch (IOException e1) { "Could not write the image!"; }
+}
